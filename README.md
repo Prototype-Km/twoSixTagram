@@ -5,7 +5,7 @@
 
 | 담당자 | 기능 영역       | 주요 API                                                                                                              | 설명 | 비고 |
 |--------|-------------|---------------------------------------------------------------------------------------------------------------------|------|------|
-| 김광민 | 피드(Feed)    | `/api/feeds`, `/api/feeds/{feedId}`, `/api/feeds/public` 등                                                          | 피드 생성, 조회, 수정, 삭제 | 로그인/비로그인 구분 |
+| 김광민 | 피드(Feed)    | `/api/feeds`, `/api/feeds/{feedId}`, `/api/feeds/public` 등                                                          | 피드 생성,전체 조회,친구 피드전체조회, 친구들의 피드 전체조회, 수정, 삭제 | 로그인/비로그인 구분 |
 | 김영대 | 친구(Friend)  | `/api/friends/{userId}`, `/api/friends/requests`, `/api/friends/accept/{userId}`, `/api/friends/profile/{userId}` 등 | 친구 요청, 수락, 삭제, 프로필 조회 | |
 | 박민혁 | 유저(User)    | `/api/users/signup`, `/api/users/login`, `/api/users/me`, `/api/users/logout`, `/api/users/me` (PATCH, DELETE) 등    | 회원가입, 로그인, 내 정보 조회/수정/탈퇴 | 세션 기반 |
 | 지송이 | 댓글(Comment) | `/api/feeds/{feedId}/comments`, `/api/feeds/{feedId}/comments/{commentId}` 등                                        | 댓글 작성, 수정, 삭제, 조회 | 피드 기반 댓글 |
@@ -48,11 +48,11 @@
 | `GET` | `/api/users/me` | 내 정보 조회 | 헤더: Authorization: Bearer {token} | {"id": 1, "email": "test@example.com", "name": "홍길동"} |
 | `PATCH` | `/api/users/me` | 내 정보 수정 | {"name": "고길동"} | {"status": 200, "message": "회원 정보가 수정되었습니다."} |
 | `DELETE` | `/api/users/me` | 회원 탈퇴 | 헤더: Authorization: Bearer {token} | {"status": 200, "message": "회원 탈퇴가 완료되었습니다."} |
-| `GET` | `/api/feeds/public` | 전체 피드 조회 (비로그인) | 없음 | [{"id": 1, "title": "첫 피드", "author": "홍길동"}] |
-| `GET` | `/api/feeds` | 전체 피드 조회 (로그인) | 헤더: Authorization: Bearer {token} | [{"id": 1, "title": "첫 피드", "author": "홍길동"}] |
-| `GET` | `/api/feeds/friends` | 친구들의 피드 조회 | 헤더: Authorization: Bearer {token} | [{"id": 2, "title": "친구 피드", "author": "김철수"}] |
-| `GET` | `/api/feeds/user/{userId}` | 특정 친구 피드 조회 | 헤더: Authorization: Bearer {token} | [{"id": 3, "title": "친구 피드"}] |
-| `GET` | `/api/feeds/{feedId}` | 피드 상세 조회 | 헤더: Authorization: Bearer {token} | {"id": 1, "title": "상세 피드", "author": "홍길동", "content": "내용"} |
+| `GET` | `/api/feeds/public` | 전체 피드 조회(페이징) (비로그인) | 없음 | [{"id": 1, "title": "첫 피드", "author": "홍길동"}] |
+| `GET` | `/api/feeds` | 전체 피드 조회(페이징,댓글수 포함) (로그인) | 헤더: Authorization: Bearer {token} | [{"id": 1, "title": "첫 피드", "author": "홍길동"}] |
+| `GET` | `/api/feeds/friends` | 친구들의 피드 조회 (페이징) | 헤더: Authorization: Bearer {token} | [{"id": 2, "title": "친구 피드", "author": "김철수"}] |
+| `GET` | `/api/feeds/user/{userId}` | 특정 친구 피드 조회 (페이징) | 헤더: Authorization: Bearer {token} | [{"id": 3, "title": "친구 피드"}] |
+| `GET` | `/api/feeds/{feedId}` | 피드 상세 조회(댓글 포함)| 헤더: Authorization: Bearer {token} | {"id": 1, "title": "상세 피드", "author": "홍길동", "content": "내용"} |
 | `POST` | `/api/feeds` | 피드 작성 | {"title": "제목", "content": "내용"} | {"id": 10, "title": "제목", "content": "내용"} |
 | `PATCH` | `/api/feeds/{feedId}` | 피드 수정 | {"title": "수정제목", "content": "수정내용"} | {"id": 10, "title": "수정제목", "content": "수정내용"} |
 | `DELETE` | `/api/feeds/{feedId}` | 피드 삭제 | 헤더: Authorization: Bearer {token} | {"status": 200, "message": "피드가 삭제되었습니다."} |
